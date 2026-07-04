@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #F6F4EE; }
+  * { box-sizing: border-box; }
+  a { color: inherit; }
+</style>
+<script>
+  fetch('./estado.json').then(function(r){ return r.json(); }).then(function(d){
+    if (d && d.activo === false) {
+      var o = document.createElement('div');
+      o.style.cssText = 'position:fixed;inset:0;z-index:99999;background:#F6F4EE;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;text-align:center;padding:24px;font-family:\'Public Sans\',sans-serif';
+      o.innerHTML = '<div style="width:64px;height:64px;border-radius:18px;background:#4A6C87;color:#F6F4EE;display:flex;align-items:center;justify-content:center;font-family:\'Bricolage Grotesque\',sans-serif;font-weight:800;font-size:32px">P</div>'
+        + '<div style="font-size:17px;color:#4A443A;max-width:26ch;line-height:1.5">PlanIA CV está en pausa temporalmente. Vuelve pronto.</div>'
+        + '<a href="acerca-de.dc.html" style="font-size:13px;font-weight:600;color:#4A6C87;text-decoration:none;padding:8px 16px;border:1px solid #CBDCE6;border-radius:9px;background:#E6EEF3">Acerca de</a>';
+      document.body.appendChild(o);
+    }
+  }).catch(function(){});
+</script>
+</helmet>
+
+<div style="font-family:'Public Sans',sans-serif;color:#29251F;min-height:100vh;display:flex;flex-direction:column">
+
+  <header style="display:flex;align-items:center;gap:14px;padding:18px 32px;border-bottom:1px solid #E5E0D3;background:#FBFAF5">
+    <div style="width:36px;height:36px;border-radius:10px;background:#4A6C87;color:#F6F4EE;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px">P</div>
+    <div style="display:flex;flex-direction:column;gap:1px">
+      <div style="display:flex;align-items:center;gap:8px"><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:18px;letter-spacing:-0.01em">PlanIA CV</div><span style="font-size:10px;font-weight:700;letter-spacing:0.06em;background:#E6EEF3;color:#33546A;padding:2px 8px;border-radius:999px">BETA</span></div>
+      <div style="font-size:12px;color:#857D6F">Temporalización anual · Educación Infantil y Primaria · Comunitat Valenciana</div>
+    </div>
+    <div style="flex:1"></div>
+    <nav style="display:flex;gap:8px;align-items:center">
+      <a href="plania-cv.dc.html" style="font-size:12.5px;font-weight:600;color:#6B6355;text-decoration:none;padding:7px 12px;border:1px solid #E5E0D3;border-radius:9px;background:#FFFFFF">Herramienta</a>
+      <a href="acerca-de.dc.html" style="font-size:12.5px;font-weight:600;color:#6B6355;text-decoration:none;padding:7px 12px;border:1px solid #E5E0D3;border-radius:9px;background:#FFFFFF">Acerca de</a>
+      <a href="mailto:sentia.edu@gmail.com?subject=Feedback%20PlanIA%20CV" style="font-size:12.5px;font-weight:600;color:#6B6355;text-decoration:none;padding:7px 12px;border:1px solid #E5E0D3;border-radius:9px;background:#FFFFFF">¿Feedback?</a>
+    </nav>
+  </header>
+
+  <div style="background:#E6EEF3;color:#33546A;font-size:12px;font-weight:500;text-align:center;padding:8px 32px;line-height:1.5;border-bottom:1px solid #CBDCE6">No introduzca nombres de alumnos ni datos personales. PlanIA CV trabaja exclusivamente con información curricular y organizativa.</div>
+
+  <main style="flex:1;max-width:980px;width:100%;margin:0 auto;padding:36px 32px;display:grid;gap:20px">
+    <div>
+      <div style="font-size:12px;font-weight:700;color:#4A6C87;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px">Base documental</div>
+      <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:30px;line-height:1.15;margin:0 0 10px;letter-spacing:-0.02em">Fuentes de referencia</h1>
+      <p style="font-size:14.5px;line-height:1.6;color:#4A443A;margin:0;max-width:70ch">Carga aquí los documentos oficiales. Cuando exista documentación cargada, PlanIA CV la consulta antes de responder, muestra las fuentes utilizadas e indica cuándo una respuesta se basa en normativa. No inventa normativa: si un documento no está cargado, lo advierte expresamente.</p>
+    </div>
+
+    <div style="display:grid;gap:14px">
+      <sc-for list="{{ categoriesView }}" as="cat" hint-placeholder-count="4">
+        <section style="background:#FFFFFF;border:1px solid #E5E0D3;border-radius:14px;padding:18px">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+            <div style="width:34px;height:34px;border-radius:10px;background:#E6EEF3;color:#4A6C87;display:flex;align-items:center;justify-content:center;font-size:16px">{{ cat.icon }}</div>
+            <div>
+              <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:16px">{{ cat.title }}</div>
+              <div style="font-size:12px;color:#857D6F">{{ cat.hint }}</div>
+            </div>
+            <div style="flex:1"></div>
+            <div style="{{ cat.badgeSt }}">{{ cat.badge }}</div>
+          </div>
+          <div style="display:grid;gap:8px">
+            <sc-for list="{{ cat.docs }}" as="doc" hint-placeholder-count="2">
+              <div style="display:flex;align-items:center;gap:12px;background:#FCFBF7;border:1px solid #EEE9DD;border-radius:11px;padding:10px 12px">
+                <div style="{{ doc.dotSt }}"></div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13.5px;font-weight:600;color:#29251F">{{ doc.name }}</div>
+                  <div style="font-size:11.5px;color:#857D6F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ doc.status }}</div>
+                </div>
+                <sc-if value="{{ doc.canView }}" hint-placeholder-val="{{ false }}">
+                  <a href="{{ doc.url }}" target="_blank" style="font-size:12px;font-weight:600;color:#2B579A;text-decoration:none;padding:6px 10px;border:1px solid #D6DEEA;border-radius:8px;background:#FFFFFF">Ver PDF</a>
+                </sc-if>
+                <label style="font-size:12px;font-weight:600;color:#6B6355;padding:6px 10px;border:1px solid #E5E0D3;border-radius:8px;background:#FFFFFF;cursor:pointer">
+                  {{ doc.uploadLabel }}
+                  <input type="file" accept="application/pdf,.pdf" onChange="{{ doc.onUpload }}" style="display:none">
+                </label>
+                <sc-if value="{{ doc.loaded }}" hint-placeholder-val="{{ false }}">
+                  <button onClick="{{ doc.onRemove }}" title="Quitar documento" style="border:none;background:transparent;color:#B3AB9C;font-size:16px;line-height:1;padding:0 2px;cursor:pointer">×</button>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </sc-for>
+    </div>
+
+    <section style="background:#FFFFFF;border:1px solid #E5E0D3;border-radius:14px;padding:18px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div style="width:34px;height:34px;border-radius:10px;background:#E6EEF3;color:#4A6C87;display:flex;align-items:center;justify-content:center;font-size:16px">◈</div>
+        <div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:16px">Documentos del Centro</div>
+          <div style="font-size:12px;color:#857D6F">PEC, RRI, Plan de convivencia, PGA… documentos propios del centro</div>
+        </div>
+        <div style="flex:1"></div>
+        <div style="{{ centroBadgeSt }}">{{ centroBadge }}</div>
+      </div>
+      <div style="display:grid;gap:8px">
+        <sc-for list="{{ centroView }}" as="doc" hint-placeholder-count="2">
+          <div style="display:flex;align-items:center;gap:12px;background:#FCFBF7;border:1px solid #EEE9DD;border-radius:11px;padding:10px 12px">
+            <div style="{{ doc.dotSt }}"></div>
+            <div style="flex:1;min-width:0;display:grid;gap:2px">
+              <input value="{{ doc.name }}" onChange="{{ doc.onName }}" placeholder="Nombre del documento (p. ej. PEC)" style="border:none;background:transparent;font-size:13.5px;font-weight:600;color:#29251F;padding:0;outline:none;min-width:0">
+              <div style="font-size:11.5px;color:#857D6F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ doc.status }}</div>
+            </div>
+            <sc-if value="{{ doc.canView }}" hint-placeholder-val="{{ false }}">
+              <a href="{{ doc.url }}" target="_blank" style="font-size:12px;font-weight:600;color:#2B579A;text-decoration:none;padding:6px 10px;border:1px solid #D6DEEA;border-radius:8px;background:#FFFFFF">Ver PDF</a>
+            </sc-if>
+            <label style="font-size:12px;font-weight:600;color:#6B6355;padding:6px 10px;border:1px solid #E5E0D3;border-radius:8px;background:#FFFFFF;cursor:pointer">
+              {{ doc.uploadLabel }}
+              <input type="file" accept="application/pdf,.pdf" onChange="{{ doc.onUpload }}" style="display:none">
+            </label>
+            <button onClick="{{ doc.onRemove }}" title="Eliminar fila" style="border:none;background:transparent;color:#B3AB9C;font-size:16px;line-height:1;padding:0 2px;cursor:pointer">×</button>
+          </div>
+        </sc-for>
+      </div>
+      <button onClick="{{ addCentro }}" style="margin-top:10px;width:100%;border:1px dashed #B9CEDA;border-radius:10px;background:#F3F7FA;color:#857D6F;font-size:13px;font-weight:600;padding:9px;cursor:pointer">+ Añadir documento del centro</button>
+    </section>
+
+    <div style="background:#E9F0EB;border:1px solid #D0DFD5;border-radius:12px;padding:14px 16px;font-size:12.5px;color:#2F5B4A;line-height:1.55">
+      <b>Normativa detectada:</b> {{ resumenNormativa }}. Estas fuentes se marcan automáticamente en el bloque «Normativa utilizada» de la herramienta y se citan en las respuestas y exportaciones.
+    </div>
+  </main>
+
+  <footer style="max-width:1480px;width:100%;margin:24px auto 0;padding:18px 32px;border-top:1px solid #E5E0D3;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+    <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px;color:#29251F">PlanIA CV</div>
+    <div style="font-size:12px;color:#857D6F">Creado por David Martínez López · 2026</div>
+    <div style="flex:1"></div>
+    <div style="font-size:12px;color:#4A6C87;font-style:italic">Proyecto Sentia: Sentir, enseñar, transformar</div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  CATS = [
+    { key: 'normativa', title: 'Normativa curricular', icon: '§', hint: 'Decretos de currículo vigentes (DOGV)',
+      docs: [
+        { id: 'd106', name: 'Decreto 106/2022', nrm: 'd106' },
+        { id: 'd96', name: 'Decreto 96/2026', nrm: 'd96' }
+      ] },
+    { key: 'calendario', title: 'Calendario escolar', icon: '▦', hint: 'Resolución de calendario escolar oficial',
+      docs: [ { id: 'cal', name: 'Calendario Escolar 2026-2027', nrm: 'cal' } ] },
+    { key: 'instrucciones', title: 'Instrucciones de inicio de curso', icon: '✎', hint: 'Instrucciones y circulares de la Conselleria',
+      docs: [ { id: 'instr', name: 'Instrucciones de inicio de curso 2026-2027' } ] },
+    { key: 'modelos', title: 'Modelos de programación', icon: '❏', hint: 'Plantillas y ejemplos de programación docente',
+      docs: [ { id: 'modelo', name: 'Modelo de programación docente' } ] }
+  ];
+
+  state = {
+    // loaded[id] = { name } ; urls kept only in-session
+    loaded: { d106: { name: 'documento oficial (ejemplo cargado)' }, d96: { name: 'documento oficial (ejemplo cargado)' }, cal: { name: 'documento oficial (ejemplo cargado)' } },
+    // centro: filas libres { id, name, loaded (bool), file (nombre archivo) }
+    centro: [
+      { id: 'c1', name: 'Proyecto Educativo de Centro (PEC)', loaded: false, file: '' },
+      { id: 'c2', name: 'Plan de convivencia', loaded: false, file: '' }
+    ]
+  };
+  urls = {};
+
+  componentDidMount() {
+    try {
+      const raw = localStorage.getItem('planiacv_docs');
+      if (raw) this.setState({ loaded: JSON.parse(raw) });
+      const rc = localStorage.getItem('planiacv_centro');
+      if (rc) this.setState({ centro: JSON.parse(rc) });
+    } catch (e) {}
+    this._sync();
+  }
+
+  _persist(loaded) {
+    try { localStorage.setItem('planiacv_docs', JSON.stringify(loaded)); } catch (e) {}
+    const nrm = { d106: !!loaded.d106, d96: !!loaded.d96, cal: !!loaded.cal };
+    try { localStorage.setItem('planiacv_normativa', JSON.stringify(nrm)); } catch (e) {}
+  }
+  _persistCentro(centro) {
+    try { localStorage.setItem('planiacv_centro', JSON.stringify(centro)); } catch (e) {}
+  }
+  _sync() { this._persist(this.state.loaded); this._persistCentro(this.state.centro); }
+
+  _centroName(id) {
+    return e => {
+      const v = e.target.value;
+      const centro = this.state.centro.map(x => x.id === id ? { ...x, name: v } : x);
+      this._persistCentro(centro); this.setState({ centro });
+    };
+  }
+  _centroUpload(id) {
+    return e => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      if (this.urls[id]) URL.revokeObjectURL(this.urls[id]);
+      this.urls[id] = URL.createObjectURL(file);
+      const centro = this.state.centro.map(x => x.id === id ? { ...x, loaded: true, file: file.name } : x);
+      this._persistCentro(centro); this.setState({ centro });
+    };
+  }
+  _centroRemove(id) {
+    return () => {
+      if (this.urls[id]) { URL.revokeObjectURL(this.urls[id]); delete this.urls[id]; }
+      const centro = this.state.centro.filter(x => x.id !== id);
+      this._persistCentro(centro); this.setState({ centro });
+    };
+  }
+  _centroAdd() {
+    this._cn = (this._cn || 0) + 1;
+    const centro = [...this.state.centro, { id: 'c' + Date.now() + '_' + this._cn, name: '', loaded: false, file: '' }];
+    this._persistCentro(centro); this.setState({ centro });
+  }
+
+  _upload(id) {
+    return e => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      if (this.urls[id]) URL.revokeObjectURL(this.urls[id]);
+      this.urls[id] = URL.createObjectURL(file);
+      const loaded = { ...this.state.loaded, [id]: { name: file.name } };
+      this._persist(loaded);
+      this.setState({ loaded });
+    };
+  }
+  _remove(id) {
+    return () => {
+      if (this.urls[id]) { URL.revokeObjectURL(this.urls[id]); delete this.urls[id]; }
+      const loaded = { ...this.state.loaded }; delete loaded[id];
+      this._persist(loaded);
+      this.setState({ loaded });
+    };
+  }
+
+  renderVals() {
+    const L = this.state.loaded || {};
+    const dotOn = 'width:9px;height:9px;border-radius:50%;background:#3E7862;flex-shrink:0';
+    const dotOff = 'width:9px;height:9px;border-radius:50%;background:#D8D2C2;flex-shrink:0';
+
+    const categoriesView = this.CATS.map(cat => {
+      const docs = cat.docs.map(d => {
+        const entry = L[d.id];
+        const loaded = !!entry;
+        return {
+          name: d.name,
+          loaded,
+          status: loaded ? 'Cargado · ' + entry.name : 'Sin cargar — PlanIA CV lo advertirá si se necesita',
+          dotSt: loaded ? dotOn : dotOff,
+          canView: loaded && !!this.urls[d.id],
+          url: this.urls[d.id] || '#',
+          uploadLabel: loaded ? 'Reemplazar PDF' : '+ Cargar PDF',
+          onUpload: this._upload(d.id),
+          onRemove: this._remove(d.id)
+        };
+      });
+      const n = docs.filter(x => x.loaded).length, tot = docs.length;
+      const complete = n === tot;
+      return {
+        title: cat.title, icon: cat.icon, hint: cat.hint, docs,
+        badge: n + '/' + tot + ' cargados',
+        badgeSt: 'font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:20px;' + (complete ? 'background:#E9F0EB;color:#2F5B4A;border:1px solid #D0DFD5' : 'background:#F6EEDC;color:#7A5414;border:1px solid #E9DBBB')
+      };
+    });
+
+    const nombres = { d106: 'Decreto 106/2022', d96: 'Decreto 96/2026', cal: 'Calendario Escolar 2026-2027' };
+    const detected = Object.keys(nombres).filter(k => L[k]).map(k => nombres[k]);
+    const resumenNormativa = detected.length ? detected.join(', ') : 'ningún documento normativo cargado';
+
+    // ── Documentos del Centro (filas libres)
+    const centro = this.state.centro || [];
+    const centroView = centro.map(d => ({
+      name: d.name,
+      status: d.loaded ? 'Cargado · ' + (d.file || 'PDF') : 'Sin PDF cargado',
+      dotSt: d.loaded ? dotOn : dotOff,
+      canView: d.loaded && !!this.urls[d.id],
+      url: this.urls[d.id] || '#',
+      uploadLabel: d.loaded ? 'Reemplazar PDF' : '+ Cargar PDF',
+      onName: this._centroName(d.id),
+      onUpload: this._centroUpload(d.id),
+      onRemove: this._centroRemove(d.id)
+    }));
+    const centroLoaded = centro.filter(x => x.name && x.name.trim()).length;
+    const centroComplete = centro.length > 0 && centro.every(x => x.loaded);
+    const centroBadge = centroLoaded + (centroLoaded === 1 ? ' documento' : ' documentos');
+    const centroBadgeSt = 'font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:20px;' + (centroComplete ? 'background:#E9F0EB;color:#2F5B4A;border:1px solid #D0DFD5' : 'background:#F6EEDC;color:#7A5414;border:1px solid #E9DBBB');
+
+    return {
+      categoriesView, resumenNormativa,
+      centroView, addCentro: () => this._centroAdd(), centroBadge, centroBadgeSt
+    };
+  }
+}
+</script>
+</body>
+</html>
